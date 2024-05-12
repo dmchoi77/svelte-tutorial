@@ -1,3 +1,34 @@
+<script>
+  let product = {
+    id: "svelte-book",
+    name: "Svete Guide",
+    price: 30000,
+  };
+
+  let relatedProducts = [
+    {
+      id: "react-book",
+      name: "React Book",
+      price: 30000,
+    },
+    {
+      id: "vue-book",
+      name: "Vue Book",
+      price: 30000,
+    },
+    {
+      id: "angular-book",
+      name: "Angular Book",
+      price: 30000,
+    },
+  ];
+  let cart = [];
+
+  function addToCart(productId) {
+    cart = [...cart, productId];
+  }
+</script>
+
 <style>
   :global(body) {
     margin: 0;
@@ -69,17 +100,22 @@
     <div class="image-container">
       <img
         src="https://github.com/developer-book/svelte/raw/main/static/svelte-book-1.png"
-        alt="Svelte Guide 표지"
+        alt="{product.name} 표지"
       />
     </div>
     <div>
-      <h2>Svelte Guide</h2>
+      <h2>{product.name}</h2>
       <dl>
         <dt>금액</dt>
-        <dd>30,000원</dd>
+        <dd>{product.price}원</dd>
       </dl>
       <div>
-        <button>장바구니 담기</button>
+        {#if !cart.includes(product.id)}
+          <button on:click="{() => addToCart(product.id)}">장바구니 담기</button
+          >
+        {:else}
+          <button disabled>장바구니 담기 완료</button>
+        {/if}
       </div>
     </div>
   </div>
@@ -87,9 +123,11 @@
   <footer>
     <h3>관련 상품</h3>
     <ul>
-      <li><a href="/product/react-book">React Book</a>- 30,000원</li>
-      <li><a href="/product/vue-book">Vue Book</a>- 30,000원</li>
-      <li><a href="/product/angular-book">Angular Book</a>- 30,000원</li>
+      {#each relatedProducts as product}
+        <li>
+          <a href="/product/{product.id}">{product.name}</a>- {product.name}
+        </li>
+      {/each}
     </ul>
   </footer>
 </article>
