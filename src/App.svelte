@@ -1,4 +1,6 @@
 <script>
+  import Slider from "./components/Slider.svelte";
+
   let product = {
     id: "svelte-book",
     name: "Svete Guide",
@@ -9,24 +11,6 @@
       "https://github.com/developer-book/svelte/raw/main/static/svelte-book-3.png",
     ],
   };
-
-  let sliderCenterIndex = 0;
-  let sliderLeftIndex = product.images.length - 1;
-  let sliderRightIndex = 1;
-
-  function sliderMoveLeft() {
-    const length = product.images.length;
-    sliderCenterIndex = (sliderCenterIndex - 1 + length) % length;
-    sliderLeftIndex = (sliderCenterIndex - 1 + length) % length;
-    sliderRightIndex = (sliderCenterIndex + 1) % length;
-  }
-
-  function sliderMoveRight() {
-    const length = product.images.length;
-    sliderCenterIndex = (sliderCenterIndex + 1) % length;
-    sliderLeftIndex = (sliderCenterIndex - 1 + length) % length;
-    sliderRightIndex = (sliderCenterIndex + 1) % length;
-  }
 
   let relatedProducts = [
     {
@@ -106,40 +90,6 @@
   .image-container img {
     width: 100%;
   }
-
-  .slider {
-    position: relative;
-    width: 80%;
-    margin: 0 10%;
-  }
-
-  .slider-item {
-    width: 100%;
-  }
-
-  .slider-item.left {
-    position: absolute;
-    top: 0;
-    right: 100%;
-  }
-
-  .slider-item.right {
-    position: absolute;
-    top: 0;
-    left: 100%;
-  }
-
-  .slider-left-button {
-    position: absolute;
-    top: 50%;
-    right: 100%;
-  }
-
-  .slider-right-button {
-    position: absolute;
-    top: 50%;
-    left: 100%;
-  }
 </style>
 
 <header class="header">
@@ -155,28 +105,7 @@
 <article class="product">
   <div class="product-main">
     <div class="image-container">
-      <div class="slider">
-        <img
-          src="{product.images[sliderLeftIndex]}"
-          alt="sliderImage(left)"
-          class="slider-item left"
-        />
-        <img
-          src="{product.images[sliderCenterIndex]}"
-          alt="sliderImage"
-          class="slider-item"
-        />
-        <img
-          src="{product.images[sliderRightIndex]}"
-          alt="sliderImage(right)"
-          class="slider-item right"
-        />
-        <button class="slider-left-button" on:click="{sliderMoveLeft}">-</button
-        >
-        <button class="slider-right-button" on:click="{sliderMoveRight}"
-          >+</button
-        >
-      </div>
+      <Slider images="{product.images}" />
     </div>
     <div>
       <h2>{product.name}</h2>
